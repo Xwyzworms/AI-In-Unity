@@ -77,7 +77,7 @@ public class AStarPathFinding : MonoBehaviour
 
             MapLocation neighbour = dir + thisNode.location;
 
-            if (maze.map[neighbour.x, neighbour.z] == 1) continue;
+               if (maze.map[neighbour.x, neighbour.z] == 1) continue;
             if (neighbour.x < 1 || neighbour.x >= maze.width || neighbour.z < 1 || neighbour.z >= maze.depth) continue;
             if (IsClosed(neighbour)) continue;
 
@@ -143,14 +143,13 @@ public class AStarPathFinding : MonoBehaviour
     {
         RemoveAllMarkers();
         PathMarker begin = lastPos;
-        Instantiate(pathP, new Vector3(lastPos.location.x *maze.scale, 0.0f, lastPos.location.z * maze.scale), Quaternion.identity);
+        Instantiate(pathP, new Vector3(begin.location.x *maze.scale, 0.0f, begin.location.z * maze.scale), Quaternion.identity);
         while(!begin.location.Equals(startNode.location) && begin != null) 
         
         {
-
-            Instantiate(pathP, new Vector3(lastPos.location.x *maze.scale, 0.0f, lastPos.location.z * maze.scale), Quaternion.identity);
-            PathMarker childLocation = lastPos.parent;
-            lastPos = childLocation;
+            Instantiate(pathP, new Vector3(begin.location.x *maze.scale, 0.0f, begin.location.z * maze.scale), Quaternion.identity);
+            PathMarker childLocation = begin.parent;
+            begin = childLocation;
         }
 
         Instantiate(pathP, new Vector3(lastPos.location.x *maze.scale, 0.0f, lastPos.location.z * maze.scale), Quaternion.identity);
