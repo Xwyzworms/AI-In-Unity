@@ -128,7 +128,6 @@ public class AStarPathFinding : MonoBehaviour
     }
 
     bool IsClosed(MapLocation marker) {
-
         foreach (PathMarker p in closed) {
 
             if (p.location.Equals(marker)) return true;
@@ -140,6 +139,25 @@ public class AStarPathFinding : MonoBehaviour
 
     }
 
+    private void GetThePath() 
+    {
+        RemoveAllMarkers();
+        PathMarker begin = lastPos;
+        Instantiate(pathP, new Vector3(lastPos.location.x *maze.scale, 0.0f, lastPos.location.z * maze.scale), Quaternion.identity);
+        while(!begin.location.Equals(startNode.location) && begin != null) 
+        
+        {
+
+            Instantiate(pathP, new Vector3(lastPos.location.x *maze.scale, 0.0f, lastPos.location.z * maze.scale), Quaternion.identity);
+            PathMarker childLocation = lastPos.parent;
+            lastPos = childLocation;
+        }
+
+        Instantiate(pathP, new Vector3(lastPos.location.x *maze.scale, 0.0f, lastPos.location.z * maze.scale), Quaternion.identity);
+        return;
+
+
+    }
     void Update() {
 
         if (Input.GetKeyDown(KeyCode.P)) {
@@ -148,6 +166,7 @@ public class AStarPathFinding : MonoBehaviour
             hasStarted = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.C)) SearchIT(lastPos);
+        if (Input.GetKeyDown(KeyCode.C) && !done) SearchIT(lastPos);
+        if (Input.GetKeyDown(KeyCode.M)) GetThePath();
     }
 }
